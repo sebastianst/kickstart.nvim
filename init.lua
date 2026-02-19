@@ -224,6 +224,8 @@ require('lazy').setup({
         { '<leader>f', group = '[F]ind', mode = { 'n', 'v' } },
         { '<leader>l', group = '[L]SP' },
         { '<leader>g', group = '[G]it' },
+        { '<leader>j', group = '[J]ujutsu' },
+        { '<leader>jb', group = '[J]J [B]ookmark' },
         { '<leader>S', group = '[S]ession' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
