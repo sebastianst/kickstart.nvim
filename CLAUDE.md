@@ -38,6 +38,10 @@ lua=stylua, go=goimports, rust=rustfmt, python=black, sh=shfmt. Format-on-save i
 - **yanky.nvim**: Yank ring with `<C-p>`/`<C-n>` cycling after paste, `<leader>fy` Telescope picker
 - **claudecode.nvim**: Native terminal provider, right split at 40% width
 
+## Workflow
+
+- Push directly to `main` (no feature branches or PRs).
+
 ## Style
 
 - Lua code formatted with stylua (see .stylua.toml)
