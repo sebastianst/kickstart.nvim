@@ -420,6 +420,9 @@ require('lazy').setup({
           map('<leader>ld', vim.diagnostic.setloclist, '[L]SP [D]iagnostics list')
           map('<leader>li', '<cmd>LspInfo<CR>', '[L]SP [I]nfo')
           map('<leader>ls', vim.lsp.buf.signature_help, '[L]SP [S]ignature help')
+          map('<leader>lR', function() require('telescope.builtin').lsp_references() end, '[L]SP [R]eferences')
+          map('<leader>lS', function() require('telescope.builtin').lsp_document_symbols() end, '[L]SP Document [S]ymbols')
+          map('<leader>lG', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end, '[L]SP Workspace Symbols ([G]lobal)')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
