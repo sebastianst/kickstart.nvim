@@ -230,7 +230,6 @@ require('lazy').setup({
       spec = {
         { '<leader>a', group = '[A]I' },
         { '<leader>f', group = '[F]ind', mode = { 'n', 'v' } },
-        { '<leader>l', group = '[L]SP' },
         { '<leader>g', group = '[G]it' },
         { '<leader>j', group = '[J]ujutsu' },
         { '<leader>jb', group = '[J]J [B]ookmark' },
@@ -329,41 +328,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files' })
       vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = '[F]ind [C]ommands' })
       vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-
-      -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
-      -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
-        callback = function(event)
-          local buf = event.buf
-
-          -- Find references for the word under your cursor.
-          vim.keymap.set('n', 'grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
-
-          -- Jump to the implementation of the word under your cursor.
-          -- Useful when your language has ways of declaring types without an actual implementation.
-          vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
-
-          -- Jump to the definition of the word under your cursor.
-          -- This is where a variable was first declared, or where a function is defined, etc.
-          -- To jump back, press <C-t>.
-          vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
-
-          -- Fuzzy find all the symbols in your current document.
-          -- Symbols are things like variables, functions, types, etc.
-          vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
-
-          -- Fuzzy find all the symbols in your current workspace.
-          -- Similar to document symbols, except searches over your entire project.
-          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
-
-          -- Jump to the type of the word under your cursor.
-          -- Useful when you're not sure what type a variable is and you want to see
-          -- the definition of its *type*, not where it was *defined*.
-          vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
-        end,
-      })
+      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find buffers' })
 
       -- Override default behavior and theme when searching
       vim.keymap.set('n', '<leader>/', function()
@@ -419,21 +384,22 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          local builtin = require 'telescope.builtin'
 
-          -- <leader>l LSP menu
-          map('<leader>la', vim.lsp.buf.code_action, '[L]SP Code [A]ction', { 'n', 'x' })
-          map('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
-          map('<leader>lf', function() require('conform').format { async = true, lsp_format = 'fallback' } end, '[L]SP [F]ormat')
-          map('<leader>lh', vim.lsp.buf.hover, '[L]SP [H]over')
-          map('<leader>ld', vim.diagnostic.setloclist, '[L]SP [D]iagnostics list')
-          map('<leader>li', '<cmd>LspInfo<CR>', '[L]SP [I]nfo')
-          map('<leader>ls', vim.lsp.buf.signature_help, '[L]SP [S]ignature help')
-          map('<leader>lR', function() require('telescope.builtin').lsp_references() end, '[L]SP [R]eferences')
-          map('<leader>lS', function() require('telescope.builtin').lsp_document_symbols() end, '[L]SP Document [S]ymbols')
-          map('<leader>lG', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end, '[L]SP Workspace Symbols ([G]lobal)')
+          -- Telescope overrides of Neovim 0.11 built-in LSP bindings
+          map('grr', builtin.lsp_references, '[R]eferences')
+          map('gri', builtin.lsp_implementations, '[I]mplementation')
+          map('grd', builtin.lsp_definitions, '[D]efinition')
+          map('grt', builtin.lsp_type_definitions, '[T]ype definition')
+          map('gO', builtin.lsp_document_symbols, 'Document symbols')
+          map('gW', builtin.lsp_dynamic_workspace_symbols, 'Workspace symbols')
+
+          -- Override classic gd with LSP definition (falls back to built-in in non-LSP buffers)
+          map('gd', builtin.lsp_definitions, '[D]efinition')
+
+          -- Additional LSP bindings (not Neovim defaults)
+          map('grD', vim.lsp.buf.declaration, '[D]eclaration')
+          map('grf', function() require('conform').format { async = true, lsp_format = 'fallback' } end, '[F]ormat')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
