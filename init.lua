@@ -394,6 +394,9 @@ require('lazy').setup({
           map('gO', builtin.lsp_document_symbols, 'Document symbols')
           map('gW', builtin.lsp_dynamic_workspace_symbols, 'Workspace symbols')
 
+          map('grc', builtin.lsp_incoming_calls, 'Incoming [C]alls')
+          map('grC', builtin.lsp_outgoing_calls, 'Outgoing [C]alls')
+
           -- Override classic gd with LSP definition (falls back to built-in in non-LSP buffers)
           map('gd', builtin.lsp_definitions, '[D]efinition')
 
