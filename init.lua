@@ -498,14 +498,18 @@ require('lazy').setup({
       --    :Mason
       --
       -- You can press `g?` for help in this menu.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'lua_ls',
+      local ensure_installed = {
+        'lua-language-server',
         'stylua',
+        'gopls',
         'goimports',
+        'rust-analyzer',
+        'pyright',
         'black',
+        'bash-language-server',
         'shfmt',
-      })
+        'nomicfoundation-solidity-language-server',
+      }
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
