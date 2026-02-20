@@ -4,5 +4,6 @@ return {
   opts = {
     cut_key = 'm',
     override_del = true,
+    exclude = { 'vs', 'vS' },
   },
 }
