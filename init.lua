@@ -721,6 +721,7 @@ require('lazy').setup({
 
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
     config = function()
       local filetypes = {
         'bash',
@@ -747,7 +748,13 @@ require('lazy').setup({
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
-        callback = function() vim.treesitter.start() end,
+        callback = function(ev)
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(ev.buf) then
+              pcall(vim.treesitter.start, ev.buf)
+            end
+          end)
+        end,
       })
     end,
   },
