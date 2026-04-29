@@ -237,6 +237,7 @@ require('lazy').setup({
         { '<leader>jb', group = '[J]J [B]ookmark' },
         { '<leader>S', group = '[S]ession' },
         { '<leader>t', group = '[T]abs/Toggle' },
+        { '<leader>T', group = '[T]est' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },

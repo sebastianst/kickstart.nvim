@@ -20,7 +20,8 @@ Plugin specs use lazy.nvim conventions: `opts`, `keys`, `config`, `event`, `depe
 - **Jujutsu**: `<leader>j*` — jj.nvim commands
 - **AI**: `<leader>a*` — claudecode.nvim
 - **Session**: `<leader>S*` — persistence.nvim
-- **Toggle**: `<leader>t*` — toggle features (e.g. inlay hints)
+- **Toggle**: `<leader>t*` — toggle features (e.g. inlay hints) and tab management
+- **Test**: `<leader>T*` — neotest (run/file/last/summary/output/watch)
 - **Diagnostics**: `<leader>q` — quickfix list
 - Built-in Vim/Neovim defaults are preferred over custom bindings where they exist.
 
