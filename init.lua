@@ -689,9 +689,16 @@ require('lazy').setup({
       --
       -- Examples:
       --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
+      --  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
+      require('mini.ai').setup {
+        -- NOTE: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
+        mappings = {
+          around_next = 'aa',
+          inside_next = 'ii',
+        },
+        n_lines = 500,
+      }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -751,9 +758,7 @@ require('lazy').setup({
         pattern = filetypes,
         callback = function(ev)
           vim.schedule(function()
-            if vim.api.nvim_buf_is_valid(ev.buf) then
-              pcall(vim.treesitter.start, ev.buf)
-            end
+            if vim.api.nvim_buf_is_valid(ev.buf) then pcall(vim.treesitter.start, ev.buf) end
           end)
         end,
       })
