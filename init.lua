@@ -107,7 +107,13 @@ vim.diagnostic.config {
 }
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>c', '<cmd>bdelete<CR>', { desc = '[C]lose buffer' })
+vim.keymap.set('n', '<leader>c', function()
+  if vim.bo.buftype == '' then
+    require('mini.bufremove').delete()
+  else
+    vim.cmd 'bdelete'
+  end
+end, { desc = '[C]lose buffer' })
 vim.keymap.set('c', '<C-v>', '<C-r>"', { desc = 'Paste default register' })
 vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = '[S]ave file' })
 
