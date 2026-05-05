@@ -24,7 +24,7 @@ return {
     vim.keymap.set('n', '<leader>jl', cmd.log, { desc = '[J]J [L]og' })
     vim.keymap.set('n', '<leader>jL', function() cmd.log { revisions = "'all()'" } end, { desc = '[J]J [L]og all' })
     vim.keymap.set('n', '<leader>js', cmd.status, { desc = '[J]J [S]tatus' })
-    vim.keymap.set('n', '<leader>jd', cmd.describe, { desc = '[J]J [D]escribe' })
+    vim.keymap.set('n', '<leader>jD', cmd.describe, { desc = '[J]J [D]escribe' })
     vim.keymap.set('n', '<leader>je', cmd.edit, { desc = '[J]J [E]dit' })
     vim.keymap.set('n', '<leader>jn', cmd.new, { desc = '[J]J [N]ew' })
     vim.keymap.set('n', '<leader>ja', cmd.abandon, { desc = '[J]J [A]bandon' })
@@ -45,6 +45,7 @@ return {
     vim.keymap.set('n', '<leader>jbm', cmd.bookmark_move, { desc = '[J]J [B]ookmark [M]ove' })
 
     -- Diff
-    vim.keymap.set('n', '<leader>jD', function() diff.open_vdiff() end, { desc = '[J]J [D]iff current buffer' })
+    vim.keymap.set('n', '<leader>jd', function() diff.show_revision { rev = '@' } end, { desc = '[J]J full [d]iff' })
+    vim.keymap.set('n', '<leader>jB', function() diff.open_vdiff() end, { desc = '[J]J [B]uffer diff' })
   end,
 }
