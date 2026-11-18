@@ -35,6 +35,22 @@ vim.o.showmode = false
 --  See `:help 'clipboard'`
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
+-- On headless hosts with `clip` (OSC 52), send yanks to the local clipboard. Paste returns the
+-- last yank, because the terminal doesn't let programs read the clipboard back.
+if vim.fn.executable 'clip' == 1 then
+  local last_yank = { {}, 'v' }
+  local function clip_copy(lines, regtype)
+    last_yank = { lines, regtype }
+    vim.fn.system('clip', lines)
+  end
+  local function clip_paste() return last_yank end
+  vim.g.clipboard = {
+    name = 'clip',
+    copy = { ['+'] = clip_copy, ['*'] = clip_copy },
+    paste = { ['+'] = clip_paste, ['*'] = clip_paste },
+  }
+end
+
 -- Enable break indent
 vim.o.breakindent = true
 
